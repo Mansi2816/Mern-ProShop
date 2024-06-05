@@ -1,6 +1,8 @@
 const express = require ('express')
 const products = require ('./data/products')
-const port = 5000
+const dotenv = require ('dotenv')
+dotenv.config()
+const port = process.env.PORT || 3000
 
 const app = express ()
 
