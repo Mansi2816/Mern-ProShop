@@ -3,7 +3,9 @@ const products = require ('./data/products')
 const dotenv = require ('dotenv')
 dotenv.config()
 const port = process.env.PORT || 3000
+const connectDB = require('./config/db')
 
+connectDB() //connect to MongoDB
 const app = express ()
 
 app.get('/', (req,res) => {
