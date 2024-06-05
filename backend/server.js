@@ -1,23 +1,17 @@
 const express = require ('express')
-const products = require ('./data/products')
 const dotenv = require ('dotenv')
 dotenv.config()
 const port = process.env.PORT || 3000
 const connectDB = require('./config/db')
+const productRoutes = require ('./routes/productRoutes')
 
 connectDB() //connect to MongoDB
 const app = express ()
 
 app.get('/', (req,res) => {
-res.send('api is running')
-})
+    res.send('api is running')
+    })
+    
+app.use('/api/products' , productRoutes)
 
-app.get('/api/products', (req,res) => {
-    res.json(products)
-})
-
-app.get('/api/products/:id', (req,res) => {
-    const product = products.find(p => p._id === req.params.id)
-    res.json(product)
-})
 app.listen(port,() => console.log(`Server running on port ${port}`))
