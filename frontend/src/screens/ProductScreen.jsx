@@ -34,51 +34,51 @@ const ProductScreen = () => {
         </Col>
         <Col md={4}>
           <ListGroup variant='flush'>
-            <ListGroup.Item>
+            <ListGroupItem>
               <h3>{product.name}</h3>
-            </ListGroup.Item>
+            </ListGroupItem>
 
-            <ListGroup.Item>
+            <ListGroupItem>
             <Ratings value={product.rating} text={`${product.numReviews} reviews`} />
-            </ListGroup.Item>
+            </ListGroupItem>
 
-            <ListGroup.Item>
+            <ListGroupItem>
               Price: ${product.price}
-            </ListGroup.Item>
+            </ListGroupItem>
 
-            <ListGroup.Item>
+            <ListGroupItem>
                 Description: {product.description}
-            </ListGroup.Item>
+            </ListGroupItem>
 
           </ListGroup>
         </Col>
         <Col md={3}>
             <Card>
                 <ListGroup variant='flush'>
-                    <ListGroup.Item>
+                    <ListGroupItem>
                 <Row>
                     <Col>Price:</Col>
                     <Col>
                         <strong>${product.price}</strong>
                     </Col>
                 </Row>
-                    </ListGroup.Item>
+                    </ListGroupItem>
                 </ListGroup>
 
                 <ListGroup variant='flush'>
-                    <ListGroup.Item>
+                    <ListGroupItem>
                 <Row>
                     <Col>Status:</Col>
                     <Col>
                         <strong>${product.countInStock>0? "In Stock" : 'Out of Stock'}</strong>
                     </Col>
                 </Row>
-                    </ListGroup.Item>
+                    </ListGroupItem>
 
-                    <ListGroup.Item>
+                    <ListGroupItem>
                         <Button className='btn-block' type='button' disabled={product.countInStock===0}>
                         Add to Cart</Button>
-                    </ListGroup.Item>
+                    </ListGroupItem>
                 </ListGroup>
             </Card>
         </Col>
