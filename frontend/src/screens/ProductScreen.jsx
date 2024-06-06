@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
+import Loader from '../components/Loader'
+
 import {
   Row,
   Col,
@@ -11,6 +13,7 @@ import {
   ListGroupItem,
 } from 'react-bootstrap'
 import Ratings from '../components/Ratings'
+import Message from '../components/Message'
 
 
 const ProductScreen = () => {
@@ -26,11 +29,11 @@ const { data: product, isLoading, error } = useGetProductDetailsQuery(productId)
       </Link>
 
     {isLoading ? (
-      <h2>Loading...</h2>
+     <Loader/>
     ) : error ? (
-      <div>
-        {error?.data?.message || error.error}
-      </div>
+      <Message variant='danger'>
+      {error?.data?.message || error.error}
+    </Message>
     ) : ( <Row>
         <Col md={5}>
           <Image src={product.image} alt={product.name} fluid />
