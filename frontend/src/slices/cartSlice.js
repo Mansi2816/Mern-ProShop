@@ -24,10 +24,12 @@ const cartSlice = createSlice({
     },
     
 
-    },
+    
     removeFromCart: (state, action) => {
-      const itemId = action.payload;
-      state.cartItems = state.cartItems.filter(x => x._id !== itemId);
+      
+      state.cartItems = state.cartItems.filter(x => x._id !== action.payload);
+    
+      return updateCart(state)
     },
     clearCart: (state) => {
       state.cartItems = [];
@@ -36,7 +38,7 @@ const cartSlice = createSlice({
       state.taxPrice = 0;
       state.totalPrice = 0;
     }
-  },
+}},
 );
 
 export const { addToCart, calculatePrices, removeFromCart, clearCart } = cartSlice.actions;

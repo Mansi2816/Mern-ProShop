@@ -12,11 +12,11 @@ const CartScreen = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const handleQtyChange = (item, qty) => {
+  const handleQtyChange = async (item, qty) => {
     dispatch(addToCart({ ...item, qty }));
   };
 
-  const handleRemoveFromCart = (id) => {
+  const handleRemoveFromCart = async(id) => {
     dispatch(removeFromCart(id));
   };
 
