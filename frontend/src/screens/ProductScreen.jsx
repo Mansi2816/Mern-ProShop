@@ -5,6 +5,7 @@ import Loader from '../components/Loader'
 import { useState } from 'react'
 import { addToCart } from '../slices/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
+
 import {
   Row,
   Col,
