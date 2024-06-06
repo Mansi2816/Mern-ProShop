@@ -1,7 +1,6 @@
-import React,{useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
 import {
   Row,
   Col,
@@ -14,35 +13,25 @@ import {
 import Ratings from '../components/Ratings'
 
 
-
 const ProductScreen = () => {
+const {_id: productId} = useParams()
 
-    const [product, setProducts] = useState('')
-
+const { data: product, isLoading, error } = useGetProductDetailsQuery(productId)
+ 
    
-  const { _id: productId } = useParams()
-
-  useEffect(() => {
-    const fetchData = async () => {
-        const { data } = await axios.get(`/api/products/${productId}`)
-        setProducts(data)
-    }
-    fetchData()
-}, [productId])
-
-
-  if (!product) {
-    return (
-        <h3> Product not found!</h3>
-    )
-  }
-
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
-      <Row>
+
+    {isLoading ? (
+      <h2>Loading...</h2>
+    ) : error ? (
+      <div>
+        {error?.data?.message || error.error}
+      </div>
+    ) : ( <Row>
         <Col md={5}>
           <Image src={product.image} alt={product.name} fluid />
         </Col>
@@ -96,7 +85,8 @@ const ProductScreen = () => {
                 </ListGroup>
             </Card>
         </Col>
-      </Row>
+      </Row>)}
+     
     </>
   )
 }

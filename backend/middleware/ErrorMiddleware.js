@@ -15,7 +15,7 @@ if(err.name === 'CastError' && err.kind === 'ObjectId'){
 }
 res.status(statusCode).json({
     message,
-    stack:ProcessingInstruction.env.NODE_ENV === 'production' ? ' ' : err.stack
+    stack: process.env.NODE_ENV === 'production' ? ' ' : err.stack
 })
 }
 module.exports = {notFound, errorHandler}
