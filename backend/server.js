@@ -6,9 +6,19 @@ const {notFound, errorHandler} = require ('./middleware/ErrorMiddleware')
 const connectDB = require('./config/db')
 const productRoutes = require ('./routes/productRoutes')
 const userRoutes = require ('./routes/userRoutes')
+const cookieParser = require('cookie-parser')
+
 
 connectDB() //connect to MongoDB
 const app = express ()
+
+//Body parser middleware
+// app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
+
+//cookie-parser middleware
+app.use(cookieParser())
+
 
 app.get('/', (req,res) => {
     res.send('api is running')
