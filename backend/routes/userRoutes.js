@@ -10,14 +10,18 @@ const { authUser,
     updateUser,
     getUsersbyID,} = require('../controllers/userController')
 
-router.route('/').get(getUsers).post(registerUser)
-router.post('/login' , authUser)
-router.post('/logout' , logoutUser)
-router.get('/profile', getUserProfile)
-router.put('/profile', updateUserProfile)
-router.delete('/:id', deleteUser)
-router.put('/:id', updateUser)
-router.get('/:id', getUsersbyID)
+
+const {protect, admin} = require('../middleware/authMiddleware') 
+
+
+router.route('/').get(protect, admin, getUsers).post(registerUser)
+router.post('/auth', authUser)
+router.post('/logout' , protect, logoutUser)
+router.get('/profile',protect, getUserProfile)
+router.put('/profile', protect, updateUserProfile)
+router.delete('/:id', protect, admin, deleteUser)
+router.put('/:id',protect, admin, updateUser)
+router.get('/:id',protect, admin, getUsersbyID)
 
 
 module.exports = router

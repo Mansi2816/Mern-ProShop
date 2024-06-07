@@ -1,27 +1,29 @@
 const asyncHandler = require('../middleware/async-Handler')
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
-const { getMaxListeners } = require('../models/productModel')
+// const { Product } = require('../models/productModel')
 
 //@desc Auth user & get token
 //@route POST/api/users/login
 //@access Public
 
 const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body
+  const {email,password} = req.body
 
   const user = await User.findOne({ email })
+  console.log(req.body);
 
   if (user && (await user.matchPassword(password))) {
-    const token = jwt.sign({ userId: user._id }, process.env.JwtToken, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30d'
     })
+    console.log(token);
 
     //set JWT as http-only-cookie
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
+    //   secure: process.env.NODE_ENV !== 'development',
       sameSite: 'strict',
       MaxAge: 30 * 24 * 60 * 60 * 1000
     })
