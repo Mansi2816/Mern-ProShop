@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import logo from '../assets/logo.png'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -7,8 +7,11 @@ import { useSelector } from 'react-redux'
 
 const Header = () => {
 const {cartItems} = useSelector ((state) => state.cart)
+const {userInfo} = useSelector ((state) => state.auth)
 
-
+const logoutHandler = () => {
+  console.log("logout");
+}
 
   return (
     <header>
@@ -35,15 +38,23 @@ const {cartItems} = useSelector ((state) => state.cart)
                   }
                   </Nav.Link>
               </LinkContainer>
+                  
+                  {userInfo ? (
+                    <NavDropdown title={userInfo.name} id='username'>
+                      <LinkContainer to= '/profile'>
+                      <NavDropdown.Item onClick={logoutHandler}>
+                        Logout
+                      </NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  ) : ( <LinkContainer to='/login'>
 
-
-              <LinkContainer to='/login'>
-
-              <Nav.Link>
-                <FaUser /> Login
-                </Nav.Link>
-                </LinkContainer>   
-                         
+    <Nav.Link>
+  <FaUser /> Login
+  </Nav.Link>
+  </LinkContainer>   
+           )}
+           
             </Nav>
           </Navbar.Collapse>
         </Container>
