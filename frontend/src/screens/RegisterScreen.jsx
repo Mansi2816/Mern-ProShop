@@ -43,8 +43,10 @@ if(password !== ConfirmPassword) {
     const res = await register({name,email, password }).unwrap();
     dispatch(setCredentials({ ...res }));
     navigate(redirect);
+    setName('')
     setEmail('');
     setPassword('');
+    setConfirmPassword('');
   } catch (err) {
     toast.error(err?.data?.message || err.error);
   }
