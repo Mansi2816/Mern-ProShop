@@ -13,7 +13,7 @@ connectDB() //connect to MongoDB
 const app = express ()
 
 //Body parser middleware
-// app.use(express.json())
+app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 
 //cookie-parser middleware
