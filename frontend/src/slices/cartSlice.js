@@ -40,6 +40,10 @@ saveShippingAddress: (state, action) => {
   state.shippingAddress = action.payload;
   return updateCart(state)
 },
+savePaymentMethod:(state, action) => {
+state.paymentMethod = action.payload;
+return updateCart(state)
+},
 
     clearCart: (state) => {
       state.cartItems = [];
@@ -51,6 +55,6 @@ saveShippingAddress: (state, action) => {
 }},
 );
 
-export const { addToCart, calculatePrices, removeFromCart, clearCart, saveShippingAddress } = cartSlice.actions;
+export const { addToCart, calculatePrices, removeFromCart, clearCart, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
 
 export default cartSlice.reducer;
