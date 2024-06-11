@@ -14,13 +14,22 @@
             "type": "node"
         },
         {
+            "name": "Attach",
+            "port": 9229,
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\frontend\\src\\screens\\RegisterScreen.jsx"
+            "program": "${workspaceFolder}\\frontend\\src\\screens\\paymentScreen.jsx"
         }
     ]
 }

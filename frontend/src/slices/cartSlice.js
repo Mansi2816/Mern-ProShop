@@ -38,12 +38,11 @@ saveShippingAddress: (state, action) => {
   state.shippingAddress = action.payload;
   return updateCart(state)
 },
-savePaymentMethod:(state, action) => {
-state.paymentMethod = action.payload;
-return updateCart(state)
+savePaymentMethod: (state, action) => {
+  state.paymentMethod = action.payload;
 },
 
-    clearCart: (state,action) => {
+    clearCart: (state) => {
       state.cartItems = [];
       state.itemsPrice = 0;
       state.shippingPrice = 0;

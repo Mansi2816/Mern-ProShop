@@ -24,8 +24,10 @@ const PaymentScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(savePaymentMethod(paymentMethod))
+    console.log('Form Submitted')
     navigate('/placeorder')
   }
+
 
   return (
     <FormContainer>
@@ -44,7 +46,7 @@ const PaymentScreen = () => {
           </Form.Control>
         
         </Form.Group>
-        <Button type='submit' className='btn-block mt-3' >
+        <Button type='submit' className='btn-block mt-3'  >
           Continue
         </Button>
        

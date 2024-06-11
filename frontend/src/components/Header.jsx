@@ -6,29 +6,27 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../slices/usersApiSlice'
 import { logout } from '../slices/authSlice'
-import {useNavigate} from 'react-router-dom'
-
-
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-const {cartItems} = useSelector ((state) => state.cart)
-const {userInfo} = useSelector ((state) => state.auth)
+  const { cartItems } = useSelector((state) => state.cart)
+  const { userInfo } = useSelector((state) => state.auth)
 
-const dispatch = useDispatch()
-const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-const [logoutApiCall] = useLogoutMutation()
+  const [logoutApiCall] = useLogoutMutation()
 
-const logoutHandler = async() => {
-  try {
-    await logoutApiCall().unwrap()
-    dispatch(logout())
-    navigate('/login')
-    
-  } catch (err) {
-    console.log(err);
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap()
+      dispatch(logout())
+      navigate('/login')
+      console.log("navigated to login");
+    } catch (err) {
+      console.log(err)
+    }
   }
-}
 
   return (
     <header>
@@ -44,34 +42,33 @@ const logoutHandler = async() => {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto'>
-
               <LinkContainer to='/cart'>
-              <Nav.Link>
+                <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {
-                    cartItems.length > 0 && (
-                      <span className='badge bg-light text-dark'>{cartItems.reduce((a, c) => a + Number(c.qty), 0)}</span>
-                    )
-                  }
-                  </Nav.Link>
+                  {cartItems.length > 0 && (
+                    <span className='badge bg-light text-dark'>
+                      {cartItems.reduce((a, c) => a + Number(c.qty), 0)}
+                    </span>
+                  )}
+                </Nav.Link>
               </LinkContainer>
-                  
-                  {userInfo ? (
-                    <NavDropdown title={userInfo.name} id='username'>
-                      <LinkContainer to= '/profile'>
-                      <NavDropdown.Item onClick={logoutHandler}>
-                        Logout
-                      </NavDropdown.Item>
-                      </LinkContainer>
-                    </NavDropdown>
-                  ) : ( <LinkContainer to='/login'>
 
-    <Nav.Link>
-  <FaUser /> Login
-  </Nav.Link>
-  </LinkContainer>   
-           )}
-           
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id='username'>
+                  <LinkContainer to='/cart'>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to='/login'>
+                  <Nav.Link>
+                    <FaUser /> Login
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
