@@ -8,16 +8,25 @@ import { saveShippingAddress } from '../slices/cartSlice'
 
 const ShippingScreen = () => {
 
-    const [address,setAddress] = useState('')
-    const [city,setCity] = useState('')
-    const [postalCode,setPostalCode] = useState('')
-    const [country,setCountry] = useState('')
-
+ //bring the cart state with the  help of useSelector and destructure the shipping address from cart
 const cart = useSelector((state) => state.cart)
 const {shippingAddress} = cart
 
-const submitHandler = () => {
-   
+//the fields that we will enter will stay as we have modified the useState
+    const [address,setAddress] = useState(shippingAddress?.address ||'')
+    const [city,setCity] = useState(shippingAddress?.city ||'')
+    const [postalCode,setPostalCode] = useState(shippingAddress?.postalCode ||'')
+    const [country,setCountry] = useState(shippingAddress?.country ||'')
+
+
+const navigate = useNavigate()
+const dispatch = useDispatch()
+
+
+const submitHandler = (e) => {
+   e.preventDefault()
+   dispatch(saveShippingAddress({address,city,postalCode,country}))
+navigate('/payment')
 }
 
   return (

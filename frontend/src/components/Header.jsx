@@ -50,7 +50,7 @@ const logoutHandler = async() => {
                   <FaShoppingCart /> Cart
                   {
                     cartItems.length > 0 && (
-                      <span className='badge bg-light text-dark'>{cartItems.reduce((a,c) => a+c.qty,0 )}</span>
+                      <span className='badge bg-light text-dark'>{cartItems.reduce((a, c) => a + Number(c.qty), 0)}</span>
                     )
                   }
                   </Nav.Link>

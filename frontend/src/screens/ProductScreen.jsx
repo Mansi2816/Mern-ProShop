@@ -31,7 +31,7 @@ const [qty, setQty] = useState (1)
 const { data: product, isLoading, error } = useGetProductDetailsQuery(productId)
  
 const addToCartHandler = () => {
-  dispatch (addToCart({...product, qty}))
+  dispatch (addToCart({...product, qty: Number(qty) }))
   navigate('/cart')
   }
   
@@ -100,7 +100,7 @@ const addToCartHandler = () => {
                         <Col>
                         <Form.Control as= 'select'
                         value={qty}
-                        onChange={(e) => setQty(e.target.value)}>
+                        onChange={(e) => setQty(Number(e.target.value))}>
                           {[...Array(product.countInStock).keys()].map(
                             (x) => (
                               <option key={x + 1} value={x + 1}>
