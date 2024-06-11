@@ -1,3 +1,4 @@
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
@@ -6,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import { useLoginMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,7 @@ const LoginScreen = () => {
 
   return (
     <FormContainer>
+        <ToastContainer />
       <h1>Sign In</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId='email' className='my-3'>

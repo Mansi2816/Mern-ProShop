@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import { useRegisterMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const RegisterScreen = () => {
   const [name, setName] = useState('');
@@ -56,6 +56,7 @@ if(password !== ConfirmPassword) {
 
   return (
     <FormContainer>
+      <ToastContainer/>
       <h1>Sign Up</h1>
       <Form onSubmit={submitHandler}>
       <Form.Group controlId='name' className='my-3'>
