@@ -43,12 +43,13 @@ state.paymentMethod = action.payload;
 return updateCart(state)
 },
 
-    clearCart: (state) => {
+    clearCart: (state,action) => {
       state.cartItems = [];
       state.itemsPrice = 0;
       state.shippingPrice = 0;
       state.taxPrice = 0;
       state.totalPrice = 0;
+      return updateCart(state)
     }
 }},
 );
