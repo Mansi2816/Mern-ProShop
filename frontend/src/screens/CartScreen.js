@@ -17,11 +17,12 @@ const CartScreen = () => {
   };
 
   const handleRemoveFromCart = async(id) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart(id));   
+localStorage.removeItem (id)
   };
 
   const handleCheckout = () => {
-    navigate('/login?redirect=shipping');
+    navigate('/shipping');
   };
 
   return (

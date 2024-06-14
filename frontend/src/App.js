@@ -1,39 +1,55 @@
 import React from 'react';
-import { Outlet, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import Header from './components/Header';
 import Footer from './components/Footer';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PlaceorderScreen from './screens/PlaceOrder';
+import OrderScreen from './screens/OrderScreen';
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 import { ToastContainer } from 'react-toastify';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import StripePaymentForm from './components/StripePaymentForm';
-import HomeScreen from './screens/HomeScreen'; // Assuming you have a HomeScreen component
-// import OtherScreen from './screens/OtherScreen'; // Assuming you have other screens
-
-const stripePromise = loadStripe('pk_test_51PR5uVLY9I4vwK9ceDbFRzr097STZjLtCnMOgrsSnUgSqnYBvKdNdYFEhU6s5glxtAA2YJJyFHisO0HBLqWMnDB200SmT6Rvzk');
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <>
+    <Router>
       <Header />
-      <main className='py-3'>
+      <main className="py-3">
         <Container>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            {/* <Route path="/other" element={<OtherScreen />} /> */}
-            <Route path="/payment" element={
-              <Elements stripe={stripePromise}>
-                <StripePaymentForm />
-              </Elements>
-            } />
+            <Route path="/product/:_id" element={<ProductScreen />} />
+            
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+
+            {/* Private Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/shipping" element={<ShippingScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
+              <Route path="/payment" element={<PaymentScreen />} />
+              <Route path="/placeorder" element={<PlaceorderScreen />} />
+              <Route path="/order/:id" element={<OrderScreen />} />
+            </Route>
+
+            {/* Admin Routes (example) */}
+            {/* <Route element={<AdminRoute />}>
+              <Route path="/admin/somepage" element={<SomeAdminComponent />} />
+            </Route> */}
           </Routes>
-          <Outlet />
         </Container>
       </main>
       <Footer />
       <ToastContainer />
-    </>
+    </Router>
   );
-}
+};
 
 export default App;

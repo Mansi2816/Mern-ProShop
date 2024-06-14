@@ -19,6 +19,7 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
+      //.unwrap() method is used to access the resolved value (on success) or throw the rejected value (on error) 
       await logoutApiCall().unwrap()
       dispatch(logout())
       navigate('/login')
