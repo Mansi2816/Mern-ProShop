@@ -36,7 +36,7 @@ const App = () => {
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/placeorder" element={<PlaceorderScreen />} />
-              <Route path="/order/:id" element={<OrderScreen />} />
+              <Route path="/orders/:id" element={<OrderScreen />} />
             </Route>
 
             {/* Admin Routes (example) */}

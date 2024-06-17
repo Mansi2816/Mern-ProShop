@@ -10,7 +10,7 @@ const CartScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+  const { orderItems } = cart;
 
   const handleQtyChange = async (item, qty) => {
     dispatch(addToCart({ ...item, qty }));
@@ -29,13 +29,13 @@ localStorage.removeItem (id)
     <Row>
       <Col md={8}>
         <h1 style={{ marginBottom: '20px' }}>Shopping Cart</h1>
-        {cartItems.length === 0 ? (
+        {orderItems.length === 0 ? (
           <Message>
             Your cart is empty <Link to='/'>Go Back</Link>
           </Message>
         ) : (
           <ListGroup variant='flush'>
-            {cartItems.map((item) => (
+            {orderItems.map((item) => (
               <ListGroupItem key={item._id}>
                 <Row>
                   <Col md={2}>
@@ -74,15 +74,15 @@ localStorage.removeItem (id)
           <ListGroup variant='flush'>
             <ListGroupItem>
               <h2>
-                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items
+                Subtotal ({orderItems.reduce((acc, item) => acc + item.qty, 0)}) items
               </h2>
-              ${cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
+              ${orderItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)}
             </ListGroupItem>
             <ListGroupItem>
               <Button
                 type='button'
                 className='btn-block'
-                disabled={cartItems.length === 0}
+                disabled={orderItems.length === 0}
                 onClick={handleCheckout}
               >
                 Proceed to Checkout

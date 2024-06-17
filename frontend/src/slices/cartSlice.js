@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import  {updateCart}  from '../utils/cartUtils';
+import { updateCart } from '../utils/cartUtils';
 
-const initialState =  localStorage.getItem('cart')
+const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
-  : { cartItems: [], shippingAddress: {}, paymentMethod: 'Paypal' };
+  : { orderItems: [], shippingAddress: {}, paymentMethod: 'Paypal' };
 
-  const updateLocalStorage = (state) => {
-    localStorage.setItem('cart', JSON.stringify(state));
-  };
-
+const updateLocalStorage = (state) => {
+  localStorage.setItem('cart', JSON.stringify(state));
+};
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -16,52 +15,60 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
-       // Ensure the quantity is a number
-       
-       item.qty = Number(item.qty);
-      const existItem = state.cartItems.find(x => x._id === item._id);
-  
+      item.qty = Number(item.qty);
+      const existItem = state.orderItems.find((x) => x._id === item._id);
+
       if (existItem) {
-        state.cartItems = state.cartItems.map(x => 
+        state.orderItems = state.orderItems.map((x) =>
           x._id === existItem._id ? { ...x, qty: item.qty } : x
         );
       } else {
-        state.cartItems.push({ ...item, qty: item.qty });
+        state.orderItems.push({ ...item, qty: item.qty });
       }
-      
-      localStorage.setItem('cart',JSON.stringify(state))
-      return updateCart(state);
-      
+
+      updateLocalStorage(state);
+      updateCart(state); // Ensure this function is correctly updating any necessary values
+      return state; // Ensure you return the updated state
     },
-  
+
     removeFromCart: (state, action) => {
-    const  id = action.payload
-      state.cartItems = state.cartItems.filter(x => x._id !== id);
-      updateLocalStorage(state)
-      return updateCart(state)
-     
+      const id = action.payload;
+      state.orderItems = state.orderItems.filter((x) => x._id !== id);
+      updateLocalStorage(state);
+      updateCart(state);
+      return state;
     },
 
-   
-saveShippingAddress: (state, action) => {
-  state.shippingAddress = action.payload;
-  return updateCart(state)
-},
-savePaymentMethod: (state, action) => {
-  state.paymentMethod = action.payload;
-},
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      updateLocalStorage(state);
+      updateCart(state);
+      return state;
+    },
 
-    // clearCart: (state) => {
-    //   state.cartItems = [];
-    //   state.itemsPrice = 0;
-    //   state.shippingPrice = 0;
-    //   state.taxPrice = 0;
-    //   state.totalPrice = 0;
-    //   return updateCart(state)
-    // }
-}},
-);
+    savePaymentMethod: (state, action) => {
+      state.paymentMethod = action.payload;
+      updateLocalStorage(state);
+      updateCart(state);
+      return state;
+    },
 
-export const { addToCart, calculatePrices, removeFromCart, clearCart, saveShippingAddress, savePaymentMethod } = cartSlice.actions;
+    clearCart: (state) => {
+      state.cartSlice = [];
+      state.orderItems = [];
+      state.shippingAddress = {};
+      state.paymentMethod = {};
+      state.itemsPrice = 0;
+      state.shippingPrice = 0;
+      state.taxPrice = 0;
+      state.totalPrice = 0;
+      updateLocalStorage(state);
+      updateCart(state);
+      return state;
+    },
+  },
+});
+
+export const { addToCart, removeFromCart, saveShippingAddress, savePaymentMethod, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

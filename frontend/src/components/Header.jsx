@@ -5,11 +5,11 @@ import logo from '../assets/logo.png'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../slices/usersApiSlice'
-import { logout } from '../slices/authSlice'
+import { handleLogout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-  const { cartItems } = useSelector((state) => state.cart)
+  const { orderItems } = useSelector((state) => state.cart)
   const { userInfo } = useSelector((state) => state.auth)
 
   const dispatch = useDispatch()
@@ -19,11 +19,9 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      //.unwrap() method is used to access the resolved value (on success) or throw the rejected value (on error) 
       await logoutApiCall().unwrap()
-      dispatch(logout())
+      dispatch(handleLogout()) // Call the thunk to handle logout and clear cart
       navigate('/login')
-      console.log("navigated to login");
     } catch (err) {
       console.log(err)
     }
@@ -46,9 +44,9 @@ const Header = () => {
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {cartItems.length > 0 && (
+                  {orderItems.length > 0 && (
                     <span className='badge bg-light text-dark'>
-                      {cartItems.reduce((a, c) => a + Number(c.qty), 0)}
+                      {orderItems.reduce((a, c) => a + Number(c.qty), 0)}
                     </span>
                   )}
                 </Nav.Link>
@@ -56,7 +54,7 @@ const Header = () => {
 
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/cart'>
+                  <LinkContainer to='/profile'>
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>

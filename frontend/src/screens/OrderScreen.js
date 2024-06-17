@@ -11,17 +11,18 @@ const OrderScreen = () => {
 
   const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId)
 
-  if (error) {
-    console.error('Error fetching order details:', error) // Log the error details
-  }
+  // if (error) {
+  //   console.error('Error fetching order details:', error) // Log the error details
+  // }
 
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error.data?.message || error.error}</Message>
+    <Message variant='danger'>{error?.data?.message || error?.error?.message || 'An error occurred while fetching order details.'}</Message>
   ) : (
     <>
-      <h1>Order {order._id}</h1>
+    
+      <h1>Order {order.id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant='flush'>
@@ -62,7 +63,7 @@ const OrderScreen = () => {
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {order.orderItems.length === 0 ? (
+              {order.orderItems?.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup variant='flush'>

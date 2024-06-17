@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import {Form, Button} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,12 +13,12 @@ const ShippingScreen = () => {
 const cart = useSelector((state) => state.cart)
 const {shippingAddress} = cart
 
-//the fields that we will enter will stay as we have modified the useState
-    const [address,setAddress] = useState(shippingAddress?.address ||'')
-    const [city,setCity] = useState(shippingAddress?.city ||'')
-    const [postalCode,setPostalCode] = useState(shippingAddress?.postalCode ||'')
-    const [country,setCountry] = useState(shippingAddress?.country ||'')
 
+//the fields that we will enter will stay as we have modified the useState
+const [address, setAddress] = useState(shippingAddress?.address || '')
+const [city, setCity] = useState(shippingAddress?.city || '')
+const [postalCode, setPostalCode] = useState(shippingAddress?.postalCode || '')
+const [country, setCountry] = useState(shippingAddress?.country || '')
 
 const navigate = useNavigate()
 const dispatch = useDispatch()
