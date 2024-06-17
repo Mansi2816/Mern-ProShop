@@ -19,9 +19,10 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap()
+      await logoutApiCall().unwrap()      
       dispatch(handleLogout()) // Call the thunk to handle logout and clear cart
-      navigate('/login')
+      navigate('/login')      
+    console.log('navigated to login')
     } catch (err) {
       console.log(err)
     }
