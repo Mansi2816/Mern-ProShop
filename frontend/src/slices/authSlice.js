@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { clearCart } from './cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   userInfo: localStorage.getItem('userInfo')
@@ -15,10 +16,10 @@ const authSlice = createSlice({
       state.userInfo = action.payload;
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
     },
-    logout: (state) => {
+    logout : (state) => {
       state.userInfo = null;
       localStorage.removeItem('userInfo');
-      localStorage.removeItem('cart'); // Optional: Remove cart from local storage
+      // localStorage.removeItem('cart'); // Optional: Remove cart from local storage
     }
   }
 });
@@ -31,4 +32,5 @@ export default authSlice.reducer;
 export const handleLogout = () => (dispatch) => {
   dispatch(logout());
   dispatch(clearCart());
+ 
 };

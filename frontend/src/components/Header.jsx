@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import logo from '../assets/logo.png'
@@ -9,24 +9,30 @@ import { handleLogout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-  const { orderItems } = useSelector((state) => state.cart)
-  const { userInfo } = useSelector((state) => state.auth)
+  const { orderItems } = useSelector((state) => state.cart);
+  const userInfo = useSelector((state) => state.auth.userInfo); // Access userInfo directly from state
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [logoutApiCall] = useLogoutMutation()
+  const [logoutApiCall] = useLogoutMutation();
+
 
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap()      
-      dispatch(handleLogout()) // Call the thunk to handle logout and clear cart
-      navigate('/login')      
-    console.log('navigated to login')
+      const response = await logoutApiCall(); // Call the logout API
+      if (response.error) {
+        throw new Error(response.error.message || 'Logout failed');
+      }
+
+      dispatch(handleLogout()); // Dispatch the logout action
+      navigate('/login'); // Navigate to the login page after successful logout
     } catch (err) {
-      console.log(err)
+      console.error('Logout error:', err);
+      // Handle error logging out, such as displaying an error message to the user
     }
-  }
+  };
+
 
   return (
     <header>
