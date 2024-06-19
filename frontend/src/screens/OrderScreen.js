@@ -1,24 +1,35 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
-
+import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { useGetOrderDetailsQuery } from '../slices/orderApiSlice'
+import { useGetOrderDetailsQuery, useDeliverOrderMutation } from '../slices/orderApiSlice'
+import { toast } from 'react-toastify'
 
 const OrderScreen = () => {
   const { id: orderId } = useParams()
 
   const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId)
 
-  // if (error) {
-  //   console.error('Error fetching order details:', error) // Log the error details
-  // }
+const [deliverOrder , {isLoading : loadingDeliver}] = useDeliverOrderMutation()
+
+const { userInfo } = useSelector((state) => state.auth);
+
+const deliverOrderHandler = async() => {
+  try {
+    await deliverOrder(orderId)
+    
+    toast.success('Order Delivered')
+  } catch (err) {
+    toast.error(err?.data?.message || err.message)
+  }
+}
 
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error?.data?.message || error?.error?.message || 'An error occurred while fetching order details.'}</Message>
+    <Message variant='danger'>{error?.data?.message  || 'An error occurred while fetching order details.'}</Message>
   ) : (
     <>
     
@@ -118,6 +129,20 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
+              {loadingDeliver && <Loader/>}
+              {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button
+                    type='button'
+                    className='btn btn-block'
+                    disabled={loadingDeliver}
+                    onClick={deliverOrderHandler}
+                  >Mark as delivered
+                  </Button>
+                  
+                </ListGroup.Item>
+              )}
+
             </ListGroup>
           </Card>
         </Col>

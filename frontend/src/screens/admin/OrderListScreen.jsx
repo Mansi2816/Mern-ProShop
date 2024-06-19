@@ -5,7 +5,6 @@ import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 import { useGetOrdersQuery } from '../../slices/orderApiSlice'
-import { useSelector, useDispatch } from 'react-redux'
 
 const OrderListScreen = () => {
 
@@ -51,10 +50,12 @@ const {data: orders , isLoading, error} = useGetOrdersQuery()
                   )}
                 </td>
                 <td>
+                  
                   <LinkContainer to={`/orders/${order._id}`}>
-                    <Button variant="light" className="btn-sm">
-                      Details
+                    <Button variant="light" className="btn-sm" >          
+                      Details                      
                     </Button>
+                
                   </LinkContainer>
                 </td>
               </tr>
