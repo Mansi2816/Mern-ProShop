@@ -21,7 +21,7 @@ const getProductById = asyncHandler(async (req, res) => {
     if (product) {
         return res.json(product)
     }
-    res.status(404).json({ message: 'Resource not found' })
+    res.status(404).json({ message: 'id not found' })
 })
 
 
@@ -51,7 +51,7 @@ const createProduct = asyncHandler(async (req, res) => {
 //@access Private Admin
 
 const updateProduct = asyncHandler(async (req, res) => {
-    const {name, price, image,brand, category, countInStock, description} = req.body
+    const {name, price, image,brand, category, countInStock, description } = req.body
 
     const product = await Product.findById(req.params.id)
     if (product) {
@@ -62,6 +62,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         product.category = category
         product.countInStock = countInStock
         product.description = description
+        // product.user = user
  
  const updatedProduct = await product.save()
  res.json(updatedProduct)
