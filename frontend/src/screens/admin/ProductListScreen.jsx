@@ -4,16 +4,32 @@ import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { useGetProductsQuery } from '../../slices/productsApiSlice'
+import { useGetProductsQuery, useCreateProductMutation } from '../../slices/productsApiSlice'
+import { toast } from 'react-toastify'
 
 
 const ProductListScreen = () => {
 
-    const { data: products, isLoading, error } = useGetProductsQuery()
+    const { data: products, isLoading, error, refetch } = useGetProductsQuery()
+
+const [createProduct, {isLoading: loadingCreate}] = useCreateProductMutation()
 
 const deleteHandler = (id) => {
 console.log(id);
 }
+
+const createProductHandler = async() => {
+if (window.confirm('Are you sure you want to create a new product?')) {
+    try {
+      await createProduct()
+      refetch()
+    } catch (err) {
+    toast.error(err?.data?.message || err.error)
+      
+    }
+}
+}
+
   return (
     <>
     <Row className="align-items-center">
@@ -21,12 +37,14 @@ console.log(id);
           <h1>Products</h1>
         </Col>
         <Col className="text-right">
-          <Button className="my-3">
+          <Button className="my-3" onClick={createProductHandler}>
             <FaEdit /> Create Product
           </Button>
         </Col>
       </Row>
-      {isLoading && <Loader />}
+
+
+      {loadingCreate && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
