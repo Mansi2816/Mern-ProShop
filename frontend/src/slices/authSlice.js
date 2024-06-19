@@ -1,12 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { clearCart } from './cartSlice';
-import { useNavigate } from 'react-router-dom';
 
-const initialState = {
+// let localStore =  localStorage.getItem('userInfo')
+// let initialState;
+// if(localStore === undefined || null){
+//   console.log("checkkk")
+// }else{
+// localStore =  { userInfo: localStorage.getItem('userInfo')
+// ? JSON.parse(localStorage.getItem('userInfo'))
+// : null}
+// }
+
+const initialState = {  
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
-    : null,
+    : null
 };
+
+console.log(initialState)
 
 const authSlice = createSlice({
   name: 'auth',
@@ -32,5 +43,5 @@ export default authSlice.reducer;
 export const handleLogout = () => (dispatch) => {
   dispatch(logout());
   dispatch(clearCart());
- 
+
 };

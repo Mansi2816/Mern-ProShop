@@ -12,10 +12,12 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceorderScreen from './screens/PlaceOrder';
 import OrderScreen from './screens/OrderScreen';
+import OrderListScreen from './screens/admin/OrderListScreen';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileScreen from './screens/ProfileScreen';
 
 const App = () => {
   return (
@@ -37,12 +39,15 @@ const App = () => {
               <Route path="/payment" element={<PaymentScreen />} />
               <Route path="/placeorder" element={<PlaceorderScreen />} />
               <Route path="/orders/:id" element={<OrderScreen />} />
+            <Route path='/profile' element={<ProfileScreen />} />
             </Route>
 
-            {/* Admin Routes (example) */}
-            {/* <Route element={<AdminRoute />}>
-              <Route path="/admin/somepage" element={<SomeAdminComponent />} />
-            </Route> */}
+               {/* Admin Routes */}
+               <Route element={<AdminRoute />}>
+              <Route path="/admin/orderList" element={<OrderListScreen />} />
+              
+            </Route>
+
           </Routes>
         </Container>
       </main>
