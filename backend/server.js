@@ -50,7 +50,7 @@ app.use('/api/upload' , uploadRoutes)
 //     }
 // });
 
-const __dirname = path.resolve() // set dirname to current directory
+// const __dirname = path.resolve() // set dirname to current directory
 
 app.use('/uploads' , express.static(path.join(__dirname, '/uploads')))
 app.use(notFound)
