@@ -49,7 +49,7 @@ const addToCartHandler = () => {
       productId,
       rating,
       comment,
-      user: userInfo._id // Include the user ID
+      // user: userInfo._id // Include the user ID
     }).unwrap()
     refetch()
     toast.success('Review added successfully')
