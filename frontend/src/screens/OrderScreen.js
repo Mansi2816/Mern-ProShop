@@ -18,8 +18,7 @@ const { userInfo } = useSelector((state) => state.auth);
 
 const deliverOrderHandler = async() => {
   try {
-    await deliverOrder(orderId)
-    
+    await deliverOrder(orderId)    
     toast.success('Order Delivered')
   } catch (err) {
     toast.error(err?.data?.message || err.message)
