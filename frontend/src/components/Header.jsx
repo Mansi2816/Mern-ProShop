@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../slices/usersApiSlice'
 import { handleLogout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
+import SearchBox from './SearchBox'
 
 const Header = () => {
   const { orderItems } = useSelector((state) => state.cart);
@@ -85,19 +86,11 @@ const Header = () => {
                   </LinkContainer>
                   <LinkContainer to='/admin/orderlist'>
                     <NavDropdown.Item>Orders</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/categorylist'>
-                    <NavDropdown.Item>Categories</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/reviewlist'>
-                    <NavDropdown.Item>Reviews</NavDropdown.Item>
-                  </LinkContainer>
-                  <LinkContainer to='/admin/shippinglist'>
-                    <NavDropdown.Item>Shipping</NavDropdown.Item>
-                  </LinkContainer>
+                  </LinkContainer>                
                 </NavDropdown>
               )}
             </Nav>
+            <SearchBox/>
           </Navbar.Collapse>
         </Container>
       </Navbar>
