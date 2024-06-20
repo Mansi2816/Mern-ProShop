@@ -10,7 +10,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),           
         }),
-            register: builder.mutation({
+        register: builder.mutation({
                 query:(data) => ({
                     url: `${USERS_URL}`,
                     method: 'POST',
@@ -41,7 +41,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             keepUnusedDataFor: 5
         }),
 
-
       deleteUser: builder.mutation({
     query:(userId) => ({
         url: `${USERS_URL}/${userId}`,
@@ -49,12 +48,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     })
       }),
 
+
       getUserDetails: builder.query({
         query: (userId) => ({
             url: `${USERS_URL}/${userId}`,
         }),
         keepUnusedDataFor: 5,
       }),
+
 
       updateUser: builder.mutation({
         query: (data) => ({
