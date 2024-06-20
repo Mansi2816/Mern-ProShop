@@ -31,6 +31,7 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
+            <Route path="/page/:pageNumber" element={<HomeScreen />} />
             <Route path="/product/:_id" element={<ProductScreen />} />
             
             <Route path="/login" element={<LoginScreen />} />
@@ -44,6 +45,7 @@ const App = () => {
               <Route path="/placeorder" element={<PlaceorderScreen />} />
               <Route path="/orders/:id" element={<OrderScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
+
             </Route>
 
                {/* Admin Routes */}

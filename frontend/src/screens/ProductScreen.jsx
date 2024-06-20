@@ -33,7 +33,7 @@ const [comment, setComment] = useState ('')
 
 const { data: product, refetch ,isLoading, error } = useGetProductDetailsQuery(productId)
  
-const [createReview, {isLoading: LoadingProductReview}] = useCreateReviewMutation
+const [createReview, {isLoading: LoadingProductReview}] = useCreateReviewMutation()
 
 const {userInfo} = useSelector((state) => state.auth)
 
@@ -48,7 +48,8 @@ const addToCartHandler = () => {
       await createReview({
       productId,
       rating,
-      comment
+      comment,
+      user: userInfo._id // Include the user ID
     }).unwrap()
     refetch()
     toast.success('Review added successfully')
@@ -163,7 +164,7 @@ toast.error(err?.data?.message || err.error)
       <p>{review.comment}</p>
     </ListGroupItem>
   ))}
-<ListGroup.Item>
+<ListGroupItem>
   <h2>Write a Customer review</h2>
   {LoadingProductReview && <Loader/>}
   {userInfo? (
@@ -193,7 +194,7 @@ toast.error(err?.data?.message || err.error)
       Please <Link to='/login'>Sign In</Link> to write a review
     </Message>
   )}
-</ListGroup.Item>
+</ListGroupItem>
 
 </ListGroup>
 </Col>
