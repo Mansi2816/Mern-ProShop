@@ -28,7 +28,7 @@ const deliverOrderHandler = async() => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger'>{error?.data?.message  || 'An error occurred while fetching order details.'}</Message>
+    <Message variant='danger'>{error?.data?.message  || error.error}</Message>
   ) : (
     <>
     

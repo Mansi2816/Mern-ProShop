@@ -8,6 +8,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice'
 import { handleLogout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import SearchBox from './SearchBox'
+import { resetCart } from '../slices/cartSlice'
 
 const Header = () => {
   const { orderItems } = useSelector((state) => state.cart);
@@ -27,13 +28,13 @@ const Header = () => {
       }
 
       dispatch(handleLogout()); // Dispatch the logout action
+     dispatch(resetCart())
       navigate('/login'); // Navigate to the login page after successful logout
     } catch (err) {
       console.error('Logout error:', err);
       // Handle error logging out, such as displaying an error message to the user
     }
   };
-
 
   return (
     <header>
