@@ -60,7 +60,7 @@ const UserListScreen = () => {
                   )}
                 </td>
                 <td>
-                  {!user.isAdmin && (
+                  {user &&  (
                     <>
                       <Button
                         as={Link}
