@@ -31,9 +31,10 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<HomeScreen />} />
+            <Route path="/search/:keyword" element={<HomeScreen />} />
             <Route path="/page/:pageNumber" element={<HomeScreen />} />
-            <Route path="/product/:_id" element={<ProductScreen />} />
-            
+            <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
+            <Route path="/product/:_id" element={<ProductScreen />} />            
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
 
