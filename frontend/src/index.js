@@ -6,11 +6,15 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
 import reportWebVitals from './reportWebVitals';
+import {PayPalScriptProvider} from '@paypal/react-paypal-js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
+    <PayPalScriptProvider deferLoading={true}>
     <App />
+    </PayPalScriptProvider>
+    
   </Provider>
 );
 
