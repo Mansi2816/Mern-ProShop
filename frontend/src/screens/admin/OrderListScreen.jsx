@@ -13,7 +13,7 @@ const OrderListScreen = () => {
 const {data: orders , isLoading, error, refetch} = useGetOrdersQuery()
 
 
-const [deleteOrder, {isLoading: loadingDelete}] = useDeleteOrderMutation()
+const [deleteOrder] = useDeleteOrderMutation()
 
 
 
