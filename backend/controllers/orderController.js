@@ -141,4 +141,18 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const orders = await Order.find({}).populate('user', 'id name')
     res.status(200).json(orders)
   })
-module.exports = { addOrderItems, getMyOrders, getOrderById, updateOrderToPaid, updateOrderToDelivered,getOrders }
+
+  // @desc    Delete an order
+// @route   DELETE /api/orders/:id
+// @access  Private/Admin
+  const deleteOrder = asyncHandler (async (req, res) => {
+    const order = await Order.findById(req.params.id)
+    if (order) {
+      await order.deleteOne()
+      res.json({ message: 'Order removed' })
+    } else {
+      res.status(404)
+      throw new Error('Order not found')
+    }
+  })
+module.exports = { addOrderItems, getMyOrders, getOrderById, updateOrderToPaid, updateOrderToDelivered,getOrders, deleteOrder}

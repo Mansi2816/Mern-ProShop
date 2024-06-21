@@ -147,7 +147,7 @@ const ProfileScreen = () => {
                   <td>
                     <Button
                       as={Link}
-                      to={`/order/${order._id}`}
+                      to={`/orders/${order._id}`}
                       className='btn-sm'
                       variant='light'
                     >

@@ -1,16 +1,36 @@
 import React from 'react'
 import { Table,Button } from 'react-bootstrap'
-import { FaTimes, FaCheck } from 'react-icons/fa'
+import { FaTimes, FaCheck, FaTrash } from 'react-icons/fa'
 import LinkContainer from 'react-router-bootstrap/LinkContainer'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { useGetOrdersQuery } from '../../slices/orderApiSlice'
+import { useDeleteOrderMutation, useGetOrdersQuery  } from '../../slices/orderApiSlice'
+import { toast } from 'react-toastify'
+
 
 const OrderListScreen = () => {
 
-const {data: orders , isLoading, error} = useGetOrdersQuery()
+const {data: orders , isLoading, error, refetch} = useGetOrdersQuery()
 
-  return (
+
+const [deleteOrder, {isLoading: loadingDelete}] = useDeleteOrderMutation()
+
+
+
+const deleteHandler = async(id) => {
+if(window.confirm('Are you sure?')){
+    try {
+      await deleteOrder(id).unwrap();
+      refetch()
+      toast.success('Order deleted')
+    } catch (err) {
+    toast.error(err?.data?.message || err.error)
+      
+    }
+}
+}
+
+  return (  
     <>
     <h1>Orders</h1>
     {isLoading ? <Loader/> : error ? <Message variant= 'danger'> {error}</Message> : (
@@ -23,7 +43,8 @@ const {data: orders , isLoading, error} = useGetOrdersQuery()
               <th>TOTAL</th>
               <th>PAID</th>
               <th>DELIVERED</th>
-              <th></th>
+              <th>ACTION</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -40,27 +61,24 @@ const {data: orders , isLoading, error} = useGetOrdersQuery()
                     <FaTimes style={{ color: 'red' }} />
                   )}
                 </td>
-                <td>
-                  {/* {order.isDelivered ? (
-                    order.deliveredAt.substring(0, 10)
-                  ) : (
-                    <FaTimes style={{ color: 'red' }} />
-                  )} */}
-
-                    {order.isDelivered===true ? (
+                <td>              
+                    {order.isDelivered  ? (
                     <FaCheck style={{ color: 'green' }} />
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}    
                 </td>
                 <td>
-                  
+                                    
                   <LinkContainer to={`/orders/${order._id}`}>
                     <Button variant="light" className="btn-sm" >          
                       Details                      
-                    </Button>
-                
-                  </LinkContainer>
+                    </Button>                
+                  </LinkContainer>                  
+                  <Button variant="danger" className="btn-sm" onClick={() => deleteHandler(order._id)}>
+                    <FaTrash />
+                  </Button>
+                  
                 </td>
               </tr>
             ))}
