@@ -61,10 +61,14 @@ createReview: builder.mutation({
         
     }),
     invalidatesTags:['Product']
-})
+}),
 
-  })
-})
+getTopProducts: builder.query({
+  query: () => `${PRODUCTS_URL}/top`,
+  keepUnusedDataFor: 5,
+}),
+}),
+});
 
 export const {
   useGetProductsQuery,
@@ -73,5 +77,6 @@ export const {
   useUpdateProductMutation,
   useUploadProductImageMutation,
   useDeleteProductMutation,
-  useCreateReviewMutation
+  useCreateReviewMutation,
+  useGetTopProductsQuery
 } = productApiSlice

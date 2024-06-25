@@ -134,4 +134,13 @@ product.reviews.push(review)
     }
 })
 
-module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct,createProductReview }
+// @desc    Get top rated products
+// @route   GET /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  
+    res.json(products);
+  });
+
+module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct,createProductReview, getTopProducts }
