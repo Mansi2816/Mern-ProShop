@@ -22,7 +22,7 @@ import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UsersListScreen from './screens/admin/UsersListScreen';
 import UsersEditScreen from './screens/admin/UserEditScreen'
-
+import PaymentSuccessScreen from './screens/paymentSuccessScreen';
 
 const App = () => {
   return (
@@ -47,6 +47,7 @@ const App = () => {
               <Route path="/placeorder" element={<PlaceorderScreen />} />
               <Route path="/orders/:id" element={<OrderScreen />} />
             <Route path='/profile' element={<ProfileScreen />} />
+            <Route path='/:id/payment-success' element={<PaymentSuccessScreen />} />
 
             </Route>
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import Message from '../components/Message'
@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 
 const OrderScreen = () => {
   const { id: orderId } = useParams()
+  const navigate = useNavigate()
 
   const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(orderId)
 
@@ -27,6 +28,8 @@ const { userInfo } = useSelector((state) => state.auth);
 
 
 useEffect(() => {
+
+
   if (!errorPayPal && !loadingPayPal && paypal.clientId) {
     const loadPaypalScript = async () => {
       paypalDispatch({
@@ -45,6 +48,7 @@ useEffect(() => {
     }
   }
 }, [errorPayPal, loadingPayPal, order, paypal, paypalDispatch]);
+
 
 function onApprove(data, actions) {
   return actions.order.capture().then(async function (details) {
@@ -76,10 +80,27 @@ function createOrder(data, actions) {
 }
 
 
+const handlePayment = async () => {
+  if (order.user._id !== userInfo._id) {
+    toast.error('You are not authorized to pay for this order')
+    return
+  }
+  try {
+    await payOrder({ orderId, details: { status: 'COMPLETED' } }).unwrap()
+    toast.success('Payment Successful')
+    localStorage.setItem('orderId', orderId)
+    navigate('/:id/payment-success')
+  } catch (err) {
+    toast.error(err?.data?.message || err.message)
+  }
+}
+
+
 const deliverOrderHandler = async() => {
   try {
     await deliverOrder(orderId)    
     toast.success('Order Delivered')
+    refetch() // Refetch the order details to update the UI
   } catch (err) {
     toast.error(err?.data?.message || err.message)
   }
@@ -196,7 +217,22 @@ const deliverOrderHandler = async() => {
                   </Button>
                 </ListGroup.Item>)} */}
 
-{!order.isPaid && (
+
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {LoadingPay && <Loader />}
+                  <Button
+                    type='button'
+                    className='btn btn-block'
+                    onClick={handlePayment}
+                    disabled={order.user._id !== userInfo._id}
+                  >
+                    Pay Now
+                  </Button>
+                </ListGroup.Item>
+              )}
+
+              {!order.isPaid && (
                 <ListGroup.Item>
                   {LoadingPay && <Loader />}
 

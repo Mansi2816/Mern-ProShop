@@ -155,4 +155,35 @@ const addOrderItems = asyncHandler(async (req, res) => {
       throw new Error('Order not found')
     }
   })
-module.exports = { addOrderItems, getMyOrders, getOrderById, updateOrderToPaid, updateOrderToDelivered,getOrders, deleteOrder}
+
+  //@desc payment success
+  //@route PUT/api/orders/:id/paymentSuccess
+//@access Private
+const paymentSuccess = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    if (order.user.toString() !== req.user._id.toString()) {
+      res.status(403)
+      throw new Error('You are not authorized to mark this order as paid')
+    }
+
+    order.isPaid = true
+    order.paidAt = Date.now()
+    order.paymentResult = {
+      id: req.user._id, // Assuming the user ID as payment ID, adjust as needed
+      status: 'COMPLETED',
+      update_time: Date.now(),
+      email_address: req.user.email,
+    }
+
+    const updatedOrder = await order.save()
+    res.json(updatedOrder)
+  } else {
+    res.status(404)
+    throw new Error('Order not found')
+  }
+})
+
+
+module.exports = { addOrderItems, getMyOrders, getOrderById, updateOrderToPaid, updateOrderToDelivered,getOrders, deleteOrder, paymentSuccess}

@@ -9,8 +9,10 @@ import { handleLogout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import SearchBox from './SearchBox'
 import { resetCart } from '../slices/cartSlice'
+import { toast } from 'react-toastify'
 
 const Header = () => {
+
   const { orderItems } = useSelector((state) => state.cart);
   const userInfo = useSelector((state) => state.auth.userInfo); // Access userInfo directly from state
 
@@ -26,9 +28,15 @@ const Header = () => {
       if (response.error) {
         throw new Error(response.error.message || 'Logout failed');
       }
-
+      
       dispatch(handleLogout()); // Dispatch the logout action
      dispatch(resetCart())
+      // Clear localStorage immediately
+    localStorage.removeItem('cartItems')
+    localStorage.removeItem('userInfo')
+
+    // Notify user of successful logout
+    toast.success('Logout successful')
       navigate('/login'); // Navigate to the login page after successful logout
     } catch (err) {
       console.error('Logout error:', err);
